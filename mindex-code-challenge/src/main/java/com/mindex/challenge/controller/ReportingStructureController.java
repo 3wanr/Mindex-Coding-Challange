@@ -3,11 +3,10 @@ package com.mindex.challenge.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mindex.challenge.data.Employee;
 import com.mindex.challenge.data.ReportingStructure;
 import com.mindex.challenge.service.ReportingStructureService;
 
@@ -18,11 +17,10 @@ public class ReportingStructureController {
     @Autowired
     private ReportingStructureService reportingStructureService;
 
-    @PostMapping("/reportingStructure/{employeeId}")
-    public ReportingStructure create(@RequestBody Employee employee) {
-        LOG.debug("Received reporting structure request for [{}]", employee);
-
-        return reportingStructureService.create(employee);
+    @GetMapping("/reportingStructure/{employeeId}")
+    public ReportingStructure getReportingStructure(@PathVariable String employeeId) {
+        LOG.debug("Received reporting structure request for employeeId [{}]", employeeId);
+        return reportingStructureService.create(employeeId);
     }
         
 }
