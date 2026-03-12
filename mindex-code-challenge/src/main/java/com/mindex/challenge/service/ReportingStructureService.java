@@ -4,6 +4,6 @@ import com.mindex.challenge.data.Employee;
 import com.mindex.challenge.data.ReportingStructure;
 
 public interface ReportingStructureService {
-    ReportingStructure create(Employee employee);
+    ReportingStructure create(String employeeId);
     int countReports(Employee employee);
 } 

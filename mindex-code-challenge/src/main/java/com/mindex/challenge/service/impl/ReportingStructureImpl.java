@@ -2,8 +2,10 @@ package com.mindex.challenge.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mindex.challenge.dao.EmployeeRepository;
 import com.mindex.challenge.data.Employee;
 import com.mindex.challenge.data.ReportingStructure;
 import com.mindex.challenge.service.ReportingStructureService;
@@ -11,30 +13,35 @@ import com.mindex.challenge.service.ReportingStructureService;
 @Service
 public class ReportingStructureImpl implements ReportingStructureService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EmployeeServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ReportingStructureImpl.class);
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Override
-    public ReportingStructure create(Employee employee) {
-        LOG.debug("Creating employee structure for [{}]", employee);
+    public ReportingStructure create(String employeeId) {
+        LOG.debug("Creating employee reporting structure with employee id [{}]", employeeId);
+
+        Employee employee = employeeRepository.findByEmployeeId(employeeId);
+
+        if (employee == null) throw new RuntimeException("Invalid employeeId: " + employeeId);
 
         ReportingStructure rStructure = new ReportingStructure();
         rStructure.setEmployee(employee);
         rStructure.setNumberOfReports(countReports(employee));
-
         return rStructure;
     }
 
     @Override
     public int countReports(Employee employee) {
-        LOG.debug("Counting reports for [{}]", employee);
+        if (employee.getDirectReports() == null) return 0; // Base case if there is no subordinates for the employee
 
-        if (employee.getDirectReports() == null) return 0; // base case for when an employee has no reportees
-
-        // recursively find all employees that report to given employee
+        // Recursively search entire report tree
         int total = employee.getDirectReports().size();
         for (Employee e : employee.getDirectReports()) {
-            total += countReports(e);
+            Employee filled = employeeRepository.findByEmployeeId(e.getEmployeeId()); // need to grab the subordinate employee from the db since direct reports only stores ids 
+            total += countReports(filled);
         }
-        return total;        
+        return total;
     }
 }
