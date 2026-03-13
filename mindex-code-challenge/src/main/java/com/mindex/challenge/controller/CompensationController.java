@@ -15,19 +15,19 @@ public class CompensationController {
     private static final Logger LOG = LoggerFactory.getLogger(CompensationController.class);
 
     @Autowired
-    private CompensationService CompensationService;
+    private CompensationService compensationService;
 
-    @PostMapping("/Compensation/{id}")
+    @PostMapping("/compensation/{id}")
     public Compensation create(@PathVariable String id) {
         LOG.debug("Received Compensation create request for id [{}]", id);
 
-        return CompensationService.create(id);
+        return compensationService.create(id);
     }
 
-    @GetMapping("/Compensation/{id}")
+    @GetMapping("/compensation/{id}")
     public Compensation read(@PathVariable String id) {
         LOG.debug("Received Compensation read request for id [{}]", id);
 
-        return CompensationService.read(id);
+        return compensationService.read(id);
     }
 }
