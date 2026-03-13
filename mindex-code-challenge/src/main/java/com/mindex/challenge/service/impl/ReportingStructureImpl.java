@@ -28,19 +28,30 @@ public class ReportingStructureImpl implements ReportingStructureService {
 
         ReportingStructure rStructure = new ReportingStructure();
         rStructure.setEmployee(employee);
-        rStructure.setNumberOfReports(countReports(employee));
+        rStructure.setNumberOfReports(getTotalReports(employee));
         return rStructure;
     }
 
-    @Override
-    public int countReports(Employee employee) {
-        if (employee.getDirectReports() == null) return 0; // Base case if there is no subordinates for the employee
+    /**
+     * Calculates the total number of subordinates under an employee by recursively
+     * searching the reporting tree.
+     * 
+     * @param employee the employee to calculate the number of subordinates for
+     * @return the number of subordinates for the employee
+     */
+    private int getTotalReports(Employee employee) {
+        // Base case if there are no subordinates for the employee
+        if (employee.getDirectReports() == null)
+            return 0;
 
-        // Recursively search entire report tree
+        // Recursively search entire report tree to find all subordinates
         int total = employee.getDirectReports().size();
         for (Employee e : employee.getDirectReports()) {
-            Employee filled = employeeRepository.findByEmployeeId(e.getEmployeeId()); // need to grab the subordinate employee from the db since direct reports only stores ids 
-            total += countReports(filled);
+            Employee filled = employeeRepository.findByEmployeeId(e.getEmployeeId()); // need to grab the subordinate
+                                                                                      // employee from the database
+                                                                                      // since direct reports only
+                                                                                      // stores employee ids
+            total += getTotalReports(filled);
         }
         return total;
     }

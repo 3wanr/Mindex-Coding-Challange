@@ -19,9 +19,6 @@ import java.time.LocalDate;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CompensationServiceImplTest {
 
-    private String employeeUrl;
-    private String employeeIdUrl;
-    private String CompensationServiceUrl;
     private String CompensationIdServiceUrl;
 
     @LocalServerPort
@@ -32,9 +29,6 @@ public class CompensationServiceImplTest {
 
     @Before
     public void setup() {
-        employeeUrl = "http://localhost:" + port + "/employee";
-        employeeIdUrl = "http://localhost:" + port + "/employee/{id}";
-        CompensationServiceUrl = "http://localhost:" + port + "/Compensation";
         CompensationIdServiceUrl = "http://localhost:" + port + "/Compensation/{id}";
     }
 
@@ -44,10 +38,10 @@ public class CompensationServiceImplTest {
         String lennonId = "16a596ae-edd3-4847-99fe-c4518e82c86f";
 
         Compensation createdCompensation = restTemplate.postForEntity(
-            CompensationIdServiceUrl,
-            null,
-            Compensation.class,
-            lennonId).getBody();
+                CompensationIdServiceUrl,
+                null,
+                Compensation.class,
+                lennonId).getBody();
 
         // create checks
         assertNotNull(createdCompensation);
@@ -57,10 +51,10 @@ public class CompensationServiceImplTest {
         assertEquals(lennonId, createdCompensation.getEmployee().getEmployeeId());
 
         Compensation readCompensation = restTemplate.getForEntity(
-            CompensationIdServiceUrl,
-            Compensation.class,
-            lennonId).getBody();
-        
+                CompensationIdServiceUrl,
+                Compensation.class,
+                lennonId).getBody();
+
         // read checks
         assertNotNull(readCompensation);
         assertEquals(105000.00, readCompensation.getSalary(), 0);

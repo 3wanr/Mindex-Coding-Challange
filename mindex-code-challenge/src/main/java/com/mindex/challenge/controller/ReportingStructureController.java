@@ -17,10 +17,10 @@ public class ReportingStructureController {
     @Autowired
     private ReportingStructureService reportingStructureService;
 
-    @GetMapping("/reportingStructure/{employeeId}")
-    public ReportingStructure getReportingStructure(@PathVariable String employeeId) {
-        LOG.debug("Received reporting structure request for employeeId [{}]", employeeId);
-        return reportingStructureService.create(employeeId);
+    @GetMapping("/reportingStructure/{id}")
+    public ReportingStructure getReportingStructure(@PathVariable String id) {
+        LOG.debug("Received reporting structure request for id [{}]", id);
+        return reportingStructureService.create(id);
     }
         
 }
