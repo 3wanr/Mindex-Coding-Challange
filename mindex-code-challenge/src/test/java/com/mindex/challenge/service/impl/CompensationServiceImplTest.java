@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CompensationServiceImplTest {
 
-    private String CompensationIdServiceUrl;
+    private String compensationIdServiceUrl;
 
     @LocalServerPort
     private int port;
@@ -29,7 +29,7 @@ public class CompensationServiceImplTest {
 
     @Before
     public void setup() {
-        CompensationIdServiceUrl = "http://localhost:" + port + "/Compensation/{id}";
+        compensationIdServiceUrl = "http://localhost:" + port + "/compensation/{id}";
     }
 
     @Test
@@ -38,7 +38,7 @@ public class CompensationServiceImplTest {
         String lennonId = "16a596ae-edd3-4847-99fe-c4518e82c86f";
 
         Compensation createdCompensation = restTemplate.postForEntity(
-                CompensationIdServiceUrl,
+                compensationIdServiceUrl,
                 null,
                 Compensation.class,
                 lennonId).getBody();
@@ -51,7 +51,7 @@ public class CompensationServiceImplTest {
         assertEquals(lennonId, createdCompensation.getEmployee().getEmployeeId());
 
         Compensation readCompensation = restTemplate.getForEntity(
-                CompensationIdServiceUrl,
+                compensationIdServiceUrl,
                 Compensation.class,
                 lennonId).getBody();
 

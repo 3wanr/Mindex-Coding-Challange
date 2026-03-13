@@ -59,14 +59,14 @@ public class ReportingStructureImplTest {
 
     @Test
     public void testRingoReportingStructure() {
-        String RingoId = "03aa1462-ffa9-4978-901b-7c001562cf6f";
+        String ringoId = "03aa1462-ffa9-4978-901b-7c001562cf6f";
 
         ReportingStructure rStructure = restTemplate.getForEntity(
-                reportingStructureUrl, ReportingStructure.class, RingoId).getBody();
+                reportingStructureUrl, ReportingStructure.class, ringoId).getBody();
 
         assertNotNull(rStructure);
         assertNotNull(rStructure.getEmployee());
-        assertEquals(RingoId, rStructure.getEmployee().getEmployeeId());
+        assertEquals(ringoId, rStructure.getEmployee().getEmployeeId());
         assertEquals(2, rStructure.getNumberOfReports());
     }
 
